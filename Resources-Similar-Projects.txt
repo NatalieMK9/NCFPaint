@@ -1,4 +1,3 @@
-Examples of painting applications written in JavaFX:
 - https://gist.github.com/abdelaziz321/e9932bd15e4b263c3dae08644c61600c
 - https://github.com/AlmasB/FXTutorials/tree/master/src/com/almasb/paint
 - https://github.com/AcidRogue/MSPaint-JavaFX
