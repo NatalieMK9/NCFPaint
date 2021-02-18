@@ -22,6 +22,7 @@ public class Window extends Application {
         rightMenu.setTranslateY(0);
 
         // set canvas
+        // Todo:  add color wheel
         canvas = new Canvas(x, y);
     }
 
