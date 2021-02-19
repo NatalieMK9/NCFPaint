@@ -19,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.ColorPicker;
@@ -79,15 +78,21 @@ public class Main extends Application {
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0, 0, 300, 300);
 
-        canvas.setOnMouseDragged((event) -> {
-            //for(i = 0; i<10; i++) {
-                //WritableImage addedImg = new WritableImage(300, 300);
-                //addedImg = canvas.snapshot(null, addedImg);
-                //task.add(addedImg);
-                graphicsContext.setFill(cp.getValue());
-                graphicsContext.fillRect(event.getX(), event.getY(), slider.getValue(), slider.getValue());
-                System.out.println("X: " + Double.toString(event.getX()) + "; Y: " + Double.toString(event.getY()));
+        canvas.setOnKeyPressed((e) -> {
+            String a = e.getCode().toString().toLowerCase();
+            if (a.equals("a")) {
+                graphicsContext.closePath();
+                canvas.setOnMouseDragged((event) -> {
+                    //for(i = 0; i<10; i++) {
+                    //WritableImage addedImg = new WritableImage(300, 300);
+                    //addedImg = canvas.snapshot(null, addedImg);
+                    //task.add(addedImg);
+                    graphicsContext.setFill(cp.getValue());
+                    graphicsContext.fillRect(event.getX(), event.getY(), slider.getValue(), slider.getValue());
+                    System.out.println("X: " + Double.toString(event.getX()) + "; Y: " + Double.toString(event.getY()));
 
+                });
+            }
         });
 
         slider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -100,16 +105,16 @@ public class Main extends Application {
 
 
         canvas.setOnMouseClicked((event) -> {
-            //System.out.print("Circle ");
-            WritableImage addedImg = new WritableImage(300, 300);
-            addedImg = canvas.snapshot(null, addedImg);
-            task.add(addedImg);
-            graphicsContext.setFill(cp.getValue());
-            graphicsContext.fillOval(event.getX(), event.getY(), 10, 10);
-            stage.show();
+                        WritableImage addedImg = new WritableImage(300, 300);
+                        addedImg = canvas.snapshot(null, addedImg);
+                        task.add(addedImg);
+                        graphicsContext.setFill(cp.getValue());
+                        graphicsContext.fillOval(event.getX(), event.getY(), 10, 10);
 
+                    //System.out.print("Circle ");
+                    stage.show();
+                });
 
-        });
         EventHandler<ActionEvent> but = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -187,31 +192,40 @@ public class Main extends Application {
 
             });
 
-            canvas.setOnMousePressed(new EventHandler<>() {
+            canvas.setOnKeyReleased(new EventHandler<>() {
+                String a = null;
                                        @Override
-                                       public void handle(MouseEvent event) {
-                                           Line line = new Line();
+                                       public void handle(KeyEvent keyEvent) {
+                                           graphicsContext.closePath();
                                            canvas.requestFocus();
-                                           if (lineBtn.isSelected()) {
-                                               WritableImage addedImg = new WritableImage(300, 300);
-                                               addedImg = canvas.snapshot(null, addedImg);
-                                               task.add(addedImg);
+                                           String a = keyEvent.getCode().toString().toLowerCase();
+                                           if (a.equals("s")) {
+                                               final WritableImage[] addedImg = {new WritableImage(300, 300)};
                                                //System.out.print(a);
-                                           //Polygon a = new Polygon();
-                                               graphicsContext.setStroke(cp.getValue());
+                                               //Polygon a = new Polygon();
                                                graphicsContext.beginPath();
-                                               i++;
-                                           }
+                                               graphicsContext.setStroke(cp.getValue());
+                                               canvas.setOnMouseClicked(new EventHandler<>() {
+                                                   public void handle(MouseEvent event) {
+                                                       addedImg[0] = canvas.snapshot(null, addedImg[0]);
+                                                       task.add(addedImg[0]);
+                                                       graphicsContext.lineTo(event.getX(), event.getY());
+                                                       graphicsContext.setStroke(cp.getValue());
+                                                       graphicsContext.closePath();
+                                                       graphicsContext.stroke();
 
-                                           }
+                                                       i++;
+                                                   }
+                                               });
+                                           } /*else {
+                                               graphicsContext.closePath();
+                                           */
+                                       }
+
                                    });
 
-            canvas.setOnMouseReleased(new EventHandler<>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    graphicsContext.lineTo(event.getX(), event.getY());
-                }
-            });
+
+
 
 
         clear.setOnAction(but);
