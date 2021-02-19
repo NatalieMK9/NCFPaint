@@ -1,10 +1,8 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -13,7 +11,7 @@ import javafx.scene.Scene;
 
 public class RightMenu extends GridPane {
 
-    public RightMenu(Window window) {
+    public RightMenu(SimplifiedWindow window) {
         Stage primaryStage = window.stage;
         this.setPadding(new Insets(10, 15, 10, 12));
         //this.setSpacing(20);

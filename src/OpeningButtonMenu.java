@@ -3,7 +3,6 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 public class OpeningButtonMenu extends GridPane {
@@ -20,7 +19,7 @@ public class OpeningButtonMenu extends GridPane {
         simpleButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Window window1 = new Window();
+                SimplifiedWindow window1 = new SimplifiedWindow();
                 window1.start(primaryStage);
             }
         });
@@ -32,7 +31,8 @@ public class OpeningButtonMenu extends GridPane {
         advancedButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("This feature is not yet available");
+                AdvancedWindow window1 = new AdvancedWindow();
+                window1.start(primaryStage);
             }
         });
 

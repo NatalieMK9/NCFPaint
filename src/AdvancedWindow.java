@@ -1,28 +1,27 @@
 import javafx.application.Application;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.Group;
+import javafx.stage.Stage;
 
-public class Window extends Application {
+public class AdvancedWindow extends Application {
     public Stage stage;
 
-    public RightMenu rightMenu;
+    public RightMenuAdvanced rightMenu;
     public Canvas canvas;
 
     public int x, y;
 
-    public Window() {
-        x = 700;
-        y = 500;
-        rightMenu = new RightMenu(this);
+    public AdvancedWindow() {
+        x=700;
+        y=500;
+
+        rightMenu = new RightMenuAdvanced(this);
         // set size
         rightMenu.setPrefWidth(200);
         rightMenu.setTranslateX(x-200);
         rightMenu.setTranslateY(0);
 
-        // set canvas
-        // Todo:  add color wheel
         canvas = new Canvas(x, y);
     }
 
