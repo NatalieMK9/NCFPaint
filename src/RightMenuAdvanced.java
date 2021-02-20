@@ -3,6 +3,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -11,11 +14,12 @@ import javafx.scene.Scene;
 
 public class RightMenuAdvanced extends GridPane {
     public RightMenuAdvanced(AdvancedWindow window) {
+        int i=0;
         Stage primaryStage = new Stage();
         this.setPadding(new Insets(10, 15, 10, 12));
 
         Label label1 = new Label("make");
-        label1.setTextFill(Color.WHITE);
+        label1.setTextFill(Color.GREY);
 
         Button handDrawBtn = new Button("Hand Draw");
         handDrawBtn.setPrefSize(100, 30);
@@ -26,7 +30,45 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Hand Draw");
+                window.canvas.setOnMouseClicked((event) -> {
+                    WritableImage addedImg = new WritableImage(300, 300);
+                    addedImg = window.canvas.snapshot(null, addedImg);
+                    window.task.add(addedImg);
+                    window.graphicsContext.setFill(window.cp.getValue());
+                    window.graphicsContext.fillOval(event.getX(), event.getY(), 10, 10);
+                });
+
+                window.canvas.setOnKeyReleased(new EventHandler<>() {
+                    String a = null;
+                    @Override
+                    public void handle(KeyEvent keyEvent) {
+                        window.graphicsContext.closePath();
+                        window.canvas.requestFocus();
+                        String a = keyEvent.getCode().toString().toLowerCase();
+                        if (a.equals("s")) {
+                            final WritableImage[] addedImg = {new WritableImage(300, 300)};
+                            window.graphicsContext.beginPath();
+                            window.graphicsContext.setStroke(window.cp.getValue());
+                            window.canvas.setOnMouseClicked(new EventHandler<>() {
+                                public void handle(MouseEvent event) {
+                                    addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
+                                    window.task.add(addedImg[0]);
+                                    window.graphicsContext.lineTo(event.getX(), event.getY());
+                                    window.graphicsContext.setStroke(window.cp.getValue());
+                                    window.graphicsContext.closePath();
+                                    window.graphicsContext.stroke();
+
+                                    //i++;
+                                }
+                            });
+                        } /*else {
+                                               graphicsContext.closePath();
+                                           */
+                    }
+
+                });
             }
+
         });
 
         Button pixelBtn = new Button("Pixel");

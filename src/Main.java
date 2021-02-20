@@ -1,4 +1,3 @@
-package sample;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -49,7 +48,7 @@ public class Main extends Application {
         HBox flowPane = new HBox();
         Canvas canvas = new Canvas(300, 300);
         canvas.setFocusTraversable(true);
-        Button clear = new Button("Clear");
+        //Button clear = new Button("Clear");
         Button save = new Button("Save");
         Button undo = new Button("Undo");
         TextField text = new TextField();
@@ -62,10 +61,6 @@ public class Main extends Application {
         Group group = new Group();
         group.getChildren().add(canvas);
         group.getChildren().add(cp);
-        //group.getChildren().add(slider);
-        //group.getChildren().add(clear);
-        //group.getChildren().add(save);
-        flowPane.getChildren().add(clear);
         flowPane.getChildren().add(save);
         flowPane.getChildren().add(undo);
         flowPane.getChildren().add(group);
@@ -228,7 +223,6 @@ public class Main extends Application {
 
 
 
-        clear.setOnAction(but);
         save.setOnAction(but);
         undo.setOnAction(but);
 
