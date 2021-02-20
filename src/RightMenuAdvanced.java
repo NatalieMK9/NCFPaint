@@ -41,8 +41,9 @@ public class RightMenuAdvanced extends GridPane {
                     addedImg = window.canvas.snapshot(null, addedImg);
                     window.task.add(addedImg);
                     window.graphicsContext.setFill(window.cp.getValue());
-                    window.graphicsContext.fillOval(event.getX(), event.getY(), 10, 10);
+                    window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
                 });
+
 
                 window.graphicsContext.closePath();
                 window.canvas.setOnMouseDragged((event) -> {
@@ -159,6 +160,13 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Circle");
+                window.canvas.setOnMouseClicked((event) -> {
+                    WritableImage addedImg = new WritableImage(300, 300);
+                    addedImg = window.canvas.snapshot(null, addedImg);
+                    window.task.add(addedImg);
+                    window.graphicsContext.setFill(window.cp.getValue());
+                    window.graphicsContext.fillOval(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
+                });
             }
         });
 
