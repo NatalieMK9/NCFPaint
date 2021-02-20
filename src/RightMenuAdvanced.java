@@ -55,6 +55,8 @@ public class RightMenuAdvanced extends GridPane {
                             window.graphicsContext.setFill(window.cp.getValue());
                             window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
                             System.out.println("X: " + Double.toString(event.getX()) + "; Y: " + Double.toString(event.getY()));
+                            WritableImage addedImg = new WritableImage(300, 300);
+                            window.task.add(addedImg);
                         });
 
                 window.canvas.setOnKeyReleased(new EventHandler<>() {
@@ -193,7 +195,7 @@ public class RightMenuAdvanced extends GridPane {
                 System.out.println("Undo");
                 try {
                     if (!window.task.isEmpty()) {
-                        window.task.removeLast();
+                        //window.task.removeLast();
                         Image redoneImage = window.task.removeLast();
                         window.graphicsContext.setFill(Color.WHITE);
                         window.graphicsContext.fillRect(0, 0, window.canvas.getWidth(), window.canvas.getHeight());

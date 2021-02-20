@@ -46,6 +46,7 @@ public class AdvancedWindow extends Application {
         slider.setShowTickLabels(true);
         slider.setBlockIncrement(5.0);
         slider.setMajorTickUnit(2);
+        slider.setTranslateX(x-30);
     }
 
     @Override
