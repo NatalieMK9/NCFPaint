@@ -30,6 +30,12 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Hand Draw");
+                window.cp.setOnMouseClicked(a -> {
+                    window.graphicsContext.setFill(window.cp.getValue());
+                    window.canvas.requestFocus();
+
+                });
+
                 window.canvas.setOnMouseClicked((event) -> {
                     WritableImage addedImg = new WritableImage(300, 300);
                     addedImg = window.canvas.snapshot(null, addedImg);
@@ -38,6 +44,17 @@ public class RightMenuAdvanced extends GridPane {
                     window.graphicsContext.fillOval(event.getX(), event.getY(), 10, 10);
                 });
 
+                window.graphicsContext.closePath();
+                window.canvas.setOnMouseDragged((event) -> {
+                            //for(i = 0; i<10; i++) {
+                            //WritableImage addedImg = new WritableImage(300, 300);
+                            //addedImg = canvas.snapshot(null, addedImg);
+                            //task.add(addedImg);
+                            window.graphicsContext.setFill(window.cp.getValue());
+                            window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
+                            System.out.println("X: " + Double.toString(event.getX()) + "; Y: " + Double.toString(event.getY()));
+                        });
+
                 window.canvas.setOnKeyReleased(new EventHandler<>() {
                     String a = null;
                     @Override
@@ -45,30 +62,24 @@ public class RightMenuAdvanced extends GridPane {
                         window.graphicsContext.closePath();
                         window.canvas.requestFocus();
                         String a = keyEvent.getCode().toString().toLowerCase();
-                        if (a.equals("s")) {
-                            final WritableImage[] addedImg = {new WritableImage(300, 300)};
-                            window.graphicsContext.beginPath();
-                            window.graphicsContext.setStroke(window.cp.getValue());
-                            window.canvas.setOnMouseClicked(new EventHandler<>() {
-                                public void handle(MouseEvent event) {
-                                    addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
-                                    window.task.add(addedImg[0]);
-                                    window.graphicsContext.lineTo(event.getX(), event.getY());
-                                    window.graphicsContext.setStroke(window.cp.getValue());
-                                    window.graphicsContext.closePath();
-                                    window.graphicsContext.stroke();
+                        final WritableImage[] addedImg = {new WritableImage(300, 300)};
+                        window.graphicsContext.beginPath();
+                        window.graphicsContext.setStroke(window.cp.getValue());
+                        window.canvas.setOnMouseClicked(new EventHandler<>() {
+                            public void handle(MouseEvent event) {
+                                addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
+                                window.task.add(addedImg[0]);
+                                window.graphicsContext.lineTo(event.getX(), event.getY());
+                                window.graphicsContext.setStroke(window.cp.getValue());
+                                window.graphicsContext.closePath();
+                                window.graphicsContext.stroke();
 
-                                    //i++;
-                                }
-                            });
-                        } /*else {
-                                               graphicsContext.closePath();
-                                           */
+                                //i++;
+                            }
+                        });
                     }
-
                 });
             }
-
         });
 
         Button pixelBtn = new Button("Pixel");

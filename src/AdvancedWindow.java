@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -8,6 +9,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.Group;
 import javafx.stage.Stage;
+import javafx.scene.control.Slider;
 
 import java.util.LinkedList;
 
@@ -20,6 +22,7 @@ public class AdvancedWindow extends Application {
     public WritableImage start = new WritableImage(300, 300);
     public LinkedList<Image> task = new LinkedList<Image>();
     public GraphicsContext graphicsContext;
+    public Slider slider;
 
     public int x, y;
 
@@ -37,11 +40,17 @@ public class AdvancedWindow extends Application {
         canvas.setFocusTraversable(true);
         cp = new ColorPicker(Color.BLACK);
         graphicsContext = canvas.getGraphicsContext2D();
+
+        slider = new Slider(0, 20, 5);
+        slider.setOrientation(Orientation.VERTICAL);
+        slider.setShowTickLabels(true);
+        slider.setBlockIncrement(5.0);
+        slider.setMajorTickUnit(2);
     }
 
     @Override
     public void start(Stage stage) {
-        Group root = new Group(rightMenu, canvas, cp);
+        Group root = new Group(rightMenu, canvas, cp, slider);
         Scene scene = new Scene(root, x, y);
         stage.setTitle("New College Paint");
         stage.setScene(scene);
