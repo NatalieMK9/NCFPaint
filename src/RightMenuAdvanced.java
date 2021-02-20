@@ -3,6 +3,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -182,7 +183,7 @@ public class RightMenuAdvanced extends GridPane {
         });
 
         Button undoBtn = new Button("Undo");
-        undoBtn.setPrefSize(100, 30);
+        undoBtn.setPrefSize(50, 30);
         undoBtn.setUserData("Undo");
         undoBtn.setTooltip(new Tooltip("Click to undo most recent change"));
 
@@ -190,6 +191,17 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Undo");
+                try {
+                    if (!window.task.isEmpty()) {
+                        window.task.removeLast();
+                        Image redoneImage = window.task.removeLast();
+                        window.graphicsContext.setFill(Color.WHITE);
+                        window.graphicsContext.fillRect(0, 0, window.canvas.getWidth(), window.canvas.getHeight());
+                        window.graphicsContext.drawImage(redoneImage, 0, 0);
+                    }
+                } catch (Exception exception) {
+                    System.out.println("Fully Undone: " + exception);
+                }
             }
         });
 
@@ -225,5 +237,6 @@ public class RightMenuAdvanced extends GridPane {
         this.add(curveBtn, 0, 5, 1, 1);
         this.add(circleBtn, 0, 6, 1, 1);
         this.add(polygonBtn, 0, 7, 1, 1);
+        this.add(undoBtn, 1, 0, 1, 1);
     }
 }
