@@ -14,8 +14,12 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 public class RightMenuAdvanced extends GridPane {
+    public ColorPicker cp;
+
     public RightMenuAdvanced(AdvancedWindow window) {
         int i=0;
+        cp = new ColorPicker(Color.BLACK);
+        cp.setPrefSize(100, 30);
         Stage primaryStage = new Stage();
         this.setPadding(new Insets(10, 15, 10, 12));
 
@@ -32,10 +36,10 @@ public class RightMenuAdvanced extends GridPane {
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Hand Draw");
                 window.graphicsContext.beginPath();
-                window.graphicsContext.setStroke(window.cp.getValue());
+                window.graphicsContext.setStroke(cp.getValue());
 
-                window.cp.setOnMouseClicked(a -> {
-                    window.graphicsContext.setFill(window.cp.getValue());
+                cp.setOnMouseClicked(a -> {
+                    window.graphicsContext.setFill(cp.getValue());
                     window.canvas.requestFocus();
 
                 });
@@ -44,7 +48,7 @@ public class RightMenuAdvanced extends GridPane {
                     WritableImage addedImg = new WritableImage(window.x - 200, window.y);
                     addedImg = window.canvas.snapshot(null, addedImg);
                     window.task.add(addedImg);
-                    window.graphicsContext.setFill(window.cp.getValue());
+                    window.graphicsContext.setFill(cp.getValue());
                     window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
                 });
 
@@ -54,7 +58,7 @@ public class RightMenuAdvanced extends GridPane {
                     //WritableImage addedImg = new WritableImage(300, 300);
                     //addedImg = canvas.snapshot(null, addedImg);
                     // task.add(addedImg);
-                    window.graphicsContext.setFill(window.cp.getValue());
+                    window.graphicsContext.setFill(cp.getValue());
                     window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
                     System.out.println("X: " + Double.toString(event.getX()) + "; Y: " + Double.toString(event.getY()));
                     WritableImage addedImg = new WritableImage(window.x-200, window.y);
@@ -62,15 +66,13 @@ public class RightMenuAdvanced extends GridPane {
                 });
 
                 window.canvas.setOnKeyReleased(new EventHandler<>() {
-                    String a = null;
                     @Override
                     public void handle(KeyEvent keyEvent) {
                         window.graphicsContext.closePath();
                         window.canvas.requestFocus();
-                        String a = keyEvent.getCode().toString().toLowerCase();
                         final WritableImage[] addedImg = {new WritableImage(window.x-200, window.y)};
                         window.graphicsContext.beginPath();
-                        window.graphicsContext.setStroke(window.cp.getValue());
+                        window.graphicsContext.setStroke(cp.getValue());
                         window.canvas.setOnMouseClicked(new EventHandler<>() {
                             public void handle(MouseEvent event) {
                                 addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
@@ -130,13 +132,13 @@ public class RightMenuAdvanced extends GridPane {
                 window.canvas.requestFocus();
                 final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
                 window.graphicsContext.beginPath();
-                window.graphicsContext.setStroke(window.cp.getValue());
+                window.graphicsContext.setStroke(cp.getValue());
                 window.canvas.setOnMouseClicked(new EventHandler<>() {
                     public void handle(MouseEvent event) {
                         addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
                         window.task.add(addedImg[0]);
                         window.graphicsContext.lineTo(event.getX(), event.getY());
-                        window.graphicsContext.setStroke(window.cp.getValue());
+                        window.graphicsContext.setStroke(cp.getValue());
                         window.graphicsContext.closePath();
                         window.graphicsContext.stroke();
                     }
@@ -152,6 +154,17 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Text");
+            }
+        });
+
+        Button clipartButton = new Button("Clipart");
+        clipartButton.setPrefSize(100, 30);
+        clipartButton.setUserData("Clipart");
+        clipartButton.setTooltip(new Tooltip("Click to insert clipart"));
+        clipartButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Clipart");
             }
         });
 
@@ -178,7 +191,7 @@ public class RightMenuAdvanced extends GridPane {
                     WritableImage addedImg = new WritableImage(window.x-200, window.y);
                     addedImg = window.canvas.snapshot(null, addedImg);
                     window.task.add(addedImg);
-                    window.graphicsContext.setFill(window.cp.getValue());
+                    window.graphicsContext.setFill(cp.getValue());
                     window.graphicsContext.fillOval(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
                 });
             }
@@ -206,8 +219,8 @@ public class RightMenuAdvanced extends GridPane {
                 System.out.println("Undo");
                 try {
                     if (!window.task.isEmpty()) {
-                        window.task.removeLast();
-                        Image redoneImage = window.task.get(window.task.size() - 1);
+                        // window.task.removeLast();
+                        Image redoneImage = window.task.removeLast();
                         window.graphicsContext.setFill(Color.WHITE);
                         window.graphicsContext.fillRect(0, 0, window.canvas.getWidth(), window.canvas.getHeight());
                         window.graphicsContext.drawImage(redoneImage, 0, 0);
@@ -219,7 +232,7 @@ public class RightMenuAdvanced extends GridPane {
         });
 
         Button redoBtn = new Button("Redo");
-        redoBtn.setPrefSize(100, 30);
+        redoBtn.setPrefSize(50, 30);
         redoBtn.setUserData("Undo");
         redoBtn.setTooltip(new Tooltip("Click to redo the thing you just undid"));
 
@@ -230,9 +243,9 @@ public class RightMenuAdvanced extends GridPane {
             }
         });
 
-        Button doneBtn = new Button("Done");
-        doneBtn.setPrefSize(100, 30);
-        doneBtn.setUserData("Done");
+        Button doneBtn = new Button("Save");
+        doneBtn.setPrefSize(50, 30);
+        doneBtn.setUserData("Save");
         doneBtn.setTooltip(new Tooltip("Click to save your work"));
 
         doneBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -250,6 +263,11 @@ public class RightMenuAdvanced extends GridPane {
         this.add(curveBtn, 0, 5, 1, 1);
         this.add(circleBtn, 0, 6, 1, 1);
         this.add(polygonBtn, 0, 7, 1, 1);
+        this.add(textBtn, 0, 8, 1, 1);
+        this.add(clipartButton, 0 , 9, 1, 1);
+        this.add(cp, 0, 10, 1, 1);
         this.add(undoBtn, 1, 0, 1, 1);
+        this.add(redoBtn, 1, 5, 1, 1);
+        this.add(doneBtn, 1, 10, 1, 1);
     }
 }

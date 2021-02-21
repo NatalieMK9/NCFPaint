@@ -18,7 +18,6 @@ public class AdvancedWindow extends Application {
 
     public RightMenuAdvanced rightMenu;
     public Canvas canvas;
-    public ColorPicker cp;
     public WritableImage start = new WritableImage(300, 300);
     public LinkedList<Image> task = new LinkedList<Image>();
     public GraphicsContext graphicsContext;
@@ -38,7 +37,6 @@ public class AdvancedWindow extends Application {
 
         canvas = new Canvas(x-200, y);
         canvas.setFocusTraversable(true);
-        cp = new ColorPicker(Color.BLACK);
         graphicsContext = canvas.getGraphicsContext2D();
         graphicsContext = canvas.getGraphicsContext2D();
         graphicsContext.setFill(Color.WHITE);
@@ -54,7 +52,7 @@ public class AdvancedWindow extends Application {
 
     @Override
     public void start(Stage stage) {
-        Group root = new Group(rightMenu, canvas, cp, slider);
+        Group root = new Group(rightMenu, canvas, slider);
         Scene scene = new Scene(root, x, y);
         stage.setTitle("New College Paint");
         stage.setScene(scene);

@@ -29,6 +29,7 @@ public class SimplifiedWindow extends Application {
     public SimplifiedWindow() {
         x = 700;
         y = 500;
+
         rightMenu = new RightMenu(this);
         // set size
         rightMenu.setPrefWidth(200);
@@ -39,7 +40,7 @@ public class SimplifiedWindow extends Application {
         // Todo:  add color wheel
         canvas = new Canvas(x-200, y);
         canvas.setFocusTraversable(true);
-        cp = new ColorPicker(Color.BLACK);
+        // cp = new ColorPicker(Color.BLACK);
         graphicsContext = canvas.getGraphicsContext2D();
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0, 0, x-200, y);
