@@ -40,6 +40,9 @@ public class AdvancedWindow extends Application {
         canvas.setFocusTraversable(true);
         cp = new ColorPicker(Color.BLACK);
         graphicsContext = canvas.getGraphicsContext2D();
+        graphicsContext = canvas.getGraphicsContext2D();
+        graphicsContext.setFill(Color.WHITE);
+        graphicsContext.fillRect(0, 0, x-200, y);
 
         slider = new Slider(0, 20, 5);
         slider.setOrientation(Orientation.VERTICAL);

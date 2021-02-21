@@ -31,6 +31,9 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Hand Draw");
+                window.graphicsContext.beginPath();
+                window.graphicsContext.setStroke(window.cp.getValue());
+
                 window.cp.setOnMouseClicked(a -> {
                     window.graphicsContext.setFill(window.cp.getValue());
                     window.canvas.requestFocus();
@@ -38,26 +41,25 @@ public class RightMenuAdvanced extends GridPane {
                 });
 
                 window.canvas.setOnMouseClicked((event) -> {
-                    WritableImage addedImg = new WritableImage(300, 300);
+                    WritableImage addedImg = new WritableImage(window.x - 200, window.y);
                     addedImg = window.canvas.snapshot(null, addedImg);
                     window.task.add(addedImg);
                     window.graphicsContext.setFill(window.cp.getValue());
                     window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
                 });
 
-
                 window.graphicsContext.closePath();
                 window.canvas.setOnMouseDragged((event) -> {
-                            //for(i = 0; i<10; i++) {
-                            //WritableImage addedImg = new WritableImage(300, 300);
-                            //addedImg = canvas.snapshot(null, addedImg);
-                            //task.add(addedImg);
-                            window.graphicsContext.setFill(window.cp.getValue());
-                            window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
-                            System.out.println("X: " + Double.toString(event.getX()) + "; Y: " + Double.toString(event.getY()));
-                            WritableImage addedImg = new WritableImage(300, 300);
-                            window.task.add(addedImg);
-                        });
+                    //for(i = 0; i<10; i++) {
+                    //WritableImage addedImg = new WritableImage(300, 300);
+                    //addedImg = canvas.snapshot(null, addedImg);
+                    // task.add(addedImg);
+                    window.graphicsContext.setFill(window.cp.getValue());
+                    window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
+                    System.out.println("X: " + Double.toString(event.getX()) + "; Y: " + Double.toString(event.getY()));
+                    WritableImage addedImg = new WritableImage(window.x-200, window.y);
+                    window.task.add(addedImg);
+                });
 
                 window.canvas.setOnKeyReleased(new EventHandler<>() {
                     String a = null;
@@ -66,19 +68,13 @@ public class RightMenuAdvanced extends GridPane {
                         window.graphicsContext.closePath();
                         window.canvas.requestFocus();
                         String a = keyEvent.getCode().toString().toLowerCase();
-                        final WritableImage[] addedImg = {new WritableImage(300, 300)};
+                        final WritableImage[] addedImg = {new WritableImage(window.x-200, window.y)};
                         window.graphicsContext.beginPath();
                         window.graphicsContext.setStroke(window.cp.getValue());
                         window.canvas.setOnMouseClicked(new EventHandler<>() {
                             public void handle(MouseEvent event) {
                                 addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
                                 window.task.add(addedImg[0]);
-                                window.graphicsContext.lineTo(event.getX(), event.getY());
-                                window.graphicsContext.setStroke(window.cp.getValue());
-                                window.graphicsContext.closePath();
-                                window.graphicsContext.stroke();
-
-                                //i++;
                             }
                         });
                     }
@@ -130,6 +126,21 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Line");
+                window.graphicsContext.closePath();
+                window.canvas.requestFocus();
+                final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
+                window.graphicsContext.beginPath();
+                window.graphicsContext.setStroke(window.cp.getValue());
+                window.canvas.setOnMouseClicked(new EventHandler<>() {
+                    public void handle(MouseEvent event) {
+                        addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
+                        window.task.add(addedImg[0]);
+                        window.graphicsContext.lineTo(event.getX(), event.getY());
+                        window.graphicsContext.setStroke(window.cp.getValue());
+                        window.graphicsContext.closePath();
+                        window.graphicsContext.stroke();
+                    }
+                });
             }
         });
 
@@ -164,7 +175,7 @@ public class RightMenuAdvanced extends GridPane {
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Circle");
                 window.canvas.setOnMouseClicked((event) -> {
-                    WritableImage addedImg = new WritableImage(300, 300);
+                    WritableImage addedImg = new WritableImage(window.x-200, window.y);
                     addedImg = window.canvas.snapshot(null, addedImg);
                     window.task.add(addedImg);
                     window.graphicsContext.setFill(window.cp.getValue());
@@ -195,8 +206,8 @@ public class RightMenuAdvanced extends GridPane {
                 System.out.println("Undo");
                 try {
                     if (!window.task.isEmpty()) {
-                        //window.task.removeLast();
-                        Image redoneImage = window.task.removeLast();
+                        window.task.removeLast();
+                        Image redoneImage = window.task.get(window.task.size() - 1);
                         window.graphicsContext.setFill(Color.WHITE);
                         window.graphicsContext.fillRect(0, 0, window.canvas.getWidth(), window.canvas.getHeight());
                         window.graphicsContext.drawImage(redoneImage, 0, 0);
