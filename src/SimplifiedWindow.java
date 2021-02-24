@@ -34,7 +34,7 @@ public class SimplifiedWindow extends Application {
         // set size
         rightMenu.setPrefWidth(200);
         rightMenu.setTranslateX(x-200);
-        rightMenu.setTranslateY(0);
+        rightMenu.setTranslateY(50);
 
         // set canvas
         // Todo:  add color wheel
@@ -55,7 +55,7 @@ public class SimplifiedWindow extends Application {
 
     @Override
     public void start(Stage stage) {
-        Group root = new Group(rightMenu, canvas, cp, slider);
+        Group root = new Group(rightMenu, canvas, slider);
         Scene scene = new Scene(root, x, y);
         stage.setTitle("New College Paint");
         stage.setScene(scene);

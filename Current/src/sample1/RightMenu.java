@@ -19,6 +19,7 @@ public class RightMenu extends GridPane {
 
     public RightMenu(SimplifiedWindow window) {
         Stage primaryStage = window.stage;
+
         this.setPadding(new Insets(10, 15, 10, 12));
         //this.setSpacing(20);
 
@@ -28,6 +29,8 @@ public class RightMenu extends GridPane {
         
 
         Button handDrawBtn = new Button("Hand Draw");
+        handDrawBtn.setTranslateX(window.x - 150);
+        handDrawBtn.setTranslateY(30);
         handDrawBtn.setPrefSize(100, 100);
         handDrawBtn.setUserData("Hand Draw");
         handDrawBtn.setTooltip(new Tooltip("Click and drag to draw"));
@@ -92,6 +95,8 @@ public class RightMenu extends GridPane {
         });
 
         Button eraseBtn = new Button("Erase");
+        eraseBtn.setTranslateX(window.x-150);
+        eraseBtn.setTranslateY(30);
         eraseBtn.setPrefSize(100, 100);
         eraseBtn.setUserData("Erase");
         eraseBtn.setTooltip(new Tooltip("Click and drag to erase"));
@@ -104,6 +109,8 @@ public class RightMenu extends GridPane {
         });
 
         Button moveBtn = new Button("Move");
+        moveBtn.setTranslateX(window.x-150);
+        moveBtn.setTranslateY(30);
         moveBtn.setPrefSize(100, 100);
         moveBtn.setUserData("Move");
         moveBtn.setTooltip(new Tooltip("Click and drag to move objects"));
@@ -116,6 +123,8 @@ public class RightMenu extends GridPane {
         });
 
         Button lineBtn = new Button("Line");
+        lineBtn.setTranslateX(window.x-150);
+        lineBtn.setTranslateY(30);
         lineBtn.setPrefSize(100, 100);
         lineBtn.setUserData("Line");
         lineBtn.setTooltip(new Tooltip("Click on start point and then on end point to create"));
@@ -127,6 +136,8 @@ public class RightMenu extends GridPane {
         });
 
         Button textBtn = new Button("Text");
+        textBtn.setTranslateX(window.x - 150);
+        textBtn.setTranslateY(30);
         textBtn.setPrefSize(100, 100);
         textBtn.setUserData("Line");
         textBtn.setTooltip(new Tooltip("Click to add text"));
@@ -138,6 +149,8 @@ public class RightMenu extends GridPane {
         });
 
         Button rectangleBtn = new Button("rectangle");
+        rectangleBtn.setTranslateX(window.x - 150);
+        rectangleBtn.setTranslateY(30);
         rectangleBtn.setPrefSize(100, 100);
         rectangleBtn.setUserData("rectangle");
         rectangleBtn.setTooltip(new Tooltip("Click to define the corners of a rectangle"));
@@ -149,6 +162,8 @@ public class RightMenu extends GridPane {
         });
 
         Button circleBtn = new Button("Circle");
+        circleBtn.setTranslateX(window.x - 150);
+        circleBtn.setTranslateY(30);
         circleBtn.setPrefSize(100, 100);
         circleBtn.setUserData("Circle");
         circleBtn.setTooltip(new Tooltip("Create a circle around where you clicked"));
@@ -168,6 +183,8 @@ public class RightMenu extends GridPane {
         });
 
         Button curveBtn = new Button("Curve");
+        curveBtn.setTranslateX(window.x - 150);
+        curveBtn.setTranslateY(30);
         curveBtn.setPrefSize(100, 100);
         curveBtn.setUserData("Circle");
         curveBtn.setTooltip(new Tooltip("Create a curve where you click"));
@@ -247,8 +264,8 @@ public class RightMenu extends GridPane {
                 localMoveBtn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        if (!getChildren().contains(moveBtn)) {
-                            getChildren().set(0, moveBtn);
+                        if (!window.root.getChildren().contains(moveBtn)) {
+                            window.root.getChildren().set(3, moveBtn);
                         }
                     }
                 });
@@ -260,8 +277,8 @@ public class RightMenu extends GridPane {
                 localEraseBtn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        if (!getChildren().contains(eraseBtn)) {
-                            getChildren().set(0, eraseBtn);
+                        if (!window.root.getChildren().contains(eraseBtn)) {
+                            window.root.getChildren().set(3, eraseBtn);
                         }
                     }
                 });
@@ -273,8 +290,8 @@ public class RightMenu extends GridPane {
                 localHandDrawBtn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        if (!getChildren().contains(handDrawBtn)) {
-                            getChildren().set(0, handDrawBtn);
+                        if (!window.root.getChildren().contains(handDrawBtn)) {
+                            window.root.getChildren().set(3, handDrawBtn);
                         }
                     }
                 });
@@ -286,8 +303,8 @@ public class RightMenu extends GridPane {
                 localLineBtn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        if (!getChildren().contains(lineBtn)) {
-                            getChildren().set(0, lineBtn);
+                        if (!window.root.getChildren().contains(lineBtn)) {
+                            window.root.getChildren().set(3, lineBtn);
                         }
                     }
                 });
@@ -299,8 +316,8 @@ public class RightMenu extends GridPane {
                 localTextBtn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        if (!getChildren().contains(textBtn)) {
-                            getChildren().set(0, textBtn);
+                        if (!window.root.getChildren().contains(textBtn)) {
+                            window.root.getChildren().set(3, textBtn);
                         }
                     }
                 });
@@ -312,8 +329,8 @@ public class RightMenu extends GridPane {
                 localRectangleBtn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        if (!getChildren().contains(rectangleBtn)) {
-                            getChildren().set(0, rectangleBtn);
+                        if (!window.root.getChildren().contains(rectangleBtn)) {
+                            window.root.getChildren().set(3, rectangleBtn);
                         }
                     }
                 });
@@ -325,8 +342,8 @@ public class RightMenu extends GridPane {
                 localCircleBtn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        if (!getChildren().contains(circleBtn)) {
-                            getChildren().set(0, circleBtn);
+                        if (!window.root.getChildren().contains(circleBtn)) {
+                            window.root.getChildren().set(3, circleBtn);
                         }
                     }
                 });
@@ -334,12 +351,12 @@ public class RightMenu extends GridPane {
                 Button localCurveBtn = new Button("Curve");
                 localCurveBtn.setPrefSize(100, 100);
                 localCurveBtn.setUserData("Curve");
-                localCurveBtn.setTooltip(new Tooltip("Createt a curve where you click"));
+                localCurveBtn.setTooltip(new Tooltip("Create a curve where you click"));
                 localCurveBtn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        if (!getChildren().contains(curveBtn)) {
-                            getChildren().set(0, curveBtn);
+                        if (!window.root.getChildren().contains(curveBtn)) {
+                            window.root.getChildren().set(3, curveBtn);
                         }
                     }
                 });
@@ -359,7 +376,6 @@ public class RightMenu extends GridPane {
             }
         });
 
-        this.add(moveBtn, 0, 0, 1, 1);
         this.add(changeToolBtn, 0, 1, 1, 1);
         this.add(doneBtn, 1, 1, 1, 1);
         this.add(undoBtn, 0, 2, 1, 1);

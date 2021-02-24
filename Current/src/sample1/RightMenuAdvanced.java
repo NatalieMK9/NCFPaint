@@ -7,6 +7,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -17,9 +18,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -27,10 +29,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class RightMenuAdvanced extends GridPane {
+    public ColorPicker cp;
     double startX, startY, changedX, changedY, newChangedX, newChangedY;
     public RightMenuAdvanced(AdvancedWindow window) {
         window.task.add(new WritableImage(window.x-200, window.y));
         int i=0;
+        cp = new ColorPicker(Color.BLACK);
+        cp.setPrefSize(100, 30);
         Stage primaryStage = new Stage();
         this.setPadding(new Insets(10, 15, 10, 12));
 
@@ -51,7 +56,7 @@ public class RightMenuAdvanced extends GridPane {
                     window.canvas.setOnMouseDragged((event) -> {
                         final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
                         window.graphicsContext.setFill(window.cp.getValue());
-                        window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
+                        window.graphicsContext.fillOval(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
                         System.out.println("X: " + Double.toString(event.getX()) + "; Y: " + Double.toString(event.getY()));
                         window.canvas.setOnMouseReleased((e) -> {
                             addedImg[0] = new WritableImage(window.x - 200, window.y);
@@ -148,6 +153,7 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Text");
+                getText(primaryStage);
             }
         });
 
@@ -159,6 +165,17 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Polygon");
+            }
+        });
+
+        Button clipartButton = new Button("Clipart");
+        clipartButton.setPrefSize(100, 30);
+        clipartButton.setUserData("Clipart");
+        clipartButton.setTooltip(new Tooltip("Click to insert clipart"));
+        clipartButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Clipart");
             }
         });
 
@@ -226,7 +243,7 @@ public class RightMenuAdvanced extends GridPane {
         });
 
         Button redoBtn = new Button("Redo");
-        redoBtn.setPrefSize(100, 30);
+        redoBtn.setPrefSize(50, 30);
         redoBtn.setUserData("Undo");
         redoBtn.setTooltip(new Tooltip("Click to redo the thing you just undid"));
 
@@ -297,10 +314,41 @@ public class RightMenuAdvanced extends GridPane {
         this.add(curveBtn, 0, 5, 1, 1);
         this.add(circleBtn, 0, 6, 1, 1);
         this.add(polygonBtn, 0, 7, 1, 1);
+        this.add(textBtn, 0, 8, 1, 1);
+        this.add(clipartButton, 0, 9, 1, 1);
+        this.add(cp, 0, 10, 1, 1);
         this.add(undoBtn, 1, 0, 1, 1);
-        this.add(doneBtn, 1, 1, 1, 1);
+        this.add(redoBtn, 1, 5, 1, 1);
+        this.add(doneBtn, 1, 10, 1, 1);
 
+    }
+
+    public void getText(Stage stage) {
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(0, 10, 0, 10));
+        final TextField text = new TextField();
+        text.setPromptText("Text");
+        Button enterButton = new Button("Enter");
+        grid.add(new Label( "Text:"), 0, 0);
+        grid.add(text, 1, 0);
+        grid.add(enterButton, 1, 1);
+
+        enterButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                setText(text.getText());
             }
+        });
+        Scene newScene = new Scene(grid);
+        stage.setScene(newScene);
+        stage.show();
+    }
+
+    public String setText(String text) {
+        System.out.println(text);
+        return text;
+    }
 }
 // Oracle Class for getting extension of a file for saving.
 class Checker {

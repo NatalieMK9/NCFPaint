@@ -1,11 +1,11 @@
 package sample1;
 
-import com.sun.media.jfxmediaimpl.platform.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import sample1.AdvancedWindow;
 

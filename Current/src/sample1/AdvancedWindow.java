@@ -55,7 +55,7 @@ public class AdvancedWindow extends Application {
 
     @Override
     public void start(Stage stage) {
-        Group root = new Group(rightMenu, canvas, cp, slider);
+        Group root = new Group(rightMenu, canvas, slider);
         Scene scene = new Scene(root, x, y);
         stage.setTitle("New College Paint");
         stage.setScene(scene);
