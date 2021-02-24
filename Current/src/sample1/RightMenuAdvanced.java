@@ -153,7 +153,7 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Text");
-                getText(primaryStage);
+                getText(primaryStage, window);
             }
         });
 
@@ -323,7 +323,7 @@ public class RightMenuAdvanced extends GridPane {
 
     }
 
-    public void getText(Stage stage) {
+    public void getText(Stage stage, AdvancedWindow window) {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -338,11 +338,17 @@ public class RightMenuAdvanced extends GridPane {
         enterButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
                 setText(text.getText());
+                stage.close();
             }
         });
-        Scene newScene = new Scene(grid);
-        stage.setScene(newScene);
-        stage.show();
+        window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Scene newScene = new Scene(grid);
+                stage.setScene(newScene);
+                stage.show();
+            }
+        });
     }
 
     public String setText(String text) {
