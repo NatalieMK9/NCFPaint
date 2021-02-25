@@ -5,9 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import sample1.AdvancedWindow;
 
 public class OpeningButtonMenu extends GridPane {
     public OpeningButtonMenu(OpeningScreen window) {
@@ -16,26 +14,26 @@ public class OpeningButtonMenu extends GridPane {
         this.setTranslateX(window.x / 4.0);
         this.setTranslateY(window.y / 4.0);
 
-        Button simpleButton = new Button("Simple");
+        Button simpleButton = new Button("Easy");
         simpleButton.setPrefSize(100, 100);
-        simpleButton.setUserData("Simple");
-        simpleButton.setTooltip(new Tooltip("Open the simplified version of the app"));
+        simpleButton.setUserData("Easy");
+        simpleButton.setTooltip(new Tooltip("Open the easy to use version of the app"));
         simpleButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                SimplifiedWindow window1 = new SimplifiedWindow();
+                EasyWindow window1 = new EasyWindow();
                 window1.start(primaryStage);
             }
         });
 
-        Button advancedButton = new Button("Advanced");
+        Button advancedButton = new Button("Pro");
         advancedButton.setPrefSize(100, 100);
-        advancedButton.setUserData("Advanced");
-        advancedButton.setTooltip(new Tooltip("Open the advanced version of the app"));
+        advancedButton.setUserData("Pro");
+        advancedButton.setTooltip(new Tooltip("Open the pro version of the app"));
         advancedButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                AdvancedWindow window1 = new AdvancedWindow();
+                ProWindow window1 = new ProWindow();
                 window1.start(primaryStage);
             }
         });

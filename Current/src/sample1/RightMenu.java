@@ -6,7 +6,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -17,7 +16,7 @@ import javafx.scene.Scene;
 
 public class RightMenu extends GridPane {
 
-    public RightMenu(SimplifiedWindow window) {
+    public RightMenu(EasyWindow window) {
         Stage primaryStage = window.stage;
 
         this.setPadding(new Insets(10, 15, 10, 12));
@@ -414,7 +413,7 @@ public class RightMenu extends GridPane {
         this.add(redoBtn, 1, 2, 1, 1);
     }
 
-    public void makeHandDraw(Stage stage, SimplifiedWindow window, double x, double y) {
+    public void makeHandDraw(Stage stage, EasyWindow window, double x, double y) {
         final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
         window.graphicsContext.setFill(window.cp.getValue());
         window.graphicsContext.setLineWidth(window.slider.getValue());
@@ -438,7 +437,7 @@ public class RightMenu extends GridPane {
         });
     }
 
-    public void makeErase(Stage stage, SimplifiedWindow window, double x, double y) {
+    public void makeErase(Stage stage, EasyWindow window, double x, double y) {
         final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
         window.graphicsContext.setFill(Color.WHITE);
         window.graphicsContext.setStroke(Color.WHITE);
@@ -461,7 +460,7 @@ public class RightMenu extends GridPane {
             }
         });
     }
-    public void makeLine(Stage stage, SimplifiedWindow window, double startX, double startY) {
+    public void makeLine(Stage stage, EasyWindow window, double startX, double startY) {
         window.graphicsContext.closePath();
         window.canvas.requestFocus();
         final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
@@ -483,7 +482,7 @@ public class RightMenu extends GridPane {
             }
         });
     }
-    public void makeRectangle(Stage stage, SimplifiedWindow window, double firstX, double firstY) {
+    public void makeRectangle(Stage stage, EasyWindow window, double firstX, double firstY) {
         window.graphicsContext.beginPath();
         window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -512,7 +511,7 @@ public class RightMenu extends GridPane {
             }
         });
     }
-    public void getText(Stage stage, SimplifiedWindow window, double x, double y) {
+    public void getText(Stage stage, EasyWindow window, double x, double y) {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
