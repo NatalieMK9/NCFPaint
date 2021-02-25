@@ -266,6 +266,7 @@ public class RightMenu extends GridPane {
                     public void handle(ActionEvent actionEvent) {
                         if (!window.root.getChildren().contains(moveBtn)) {
                             window.root.getChildren().set(3, moveBtn);
+                            changeTool.close();
                         }
                     }
                 });
@@ -279,6 +280,7 @@ public class RightMenu extends GridPane {
                     public void handle(ActionEvent actionEvent) {
                         if (!window.root.getChildren().contains(eraseBtn)) {
                             window.root.getChildren().set(3, eraseBtn);
+                            changeTool.close();
                         }
                     }
                 });
@@ -292,6 +294,7 @@ public class RightMenu extends GridPane {
                     public void handle(ActionEvent actionEvent) {
                         if (!window.root.getChildren().contains(handDrawBtn)) {
                             window.root.getChildren().set(3, handDrawBtn);
+                            changeTool.close();
                         }
                     }
                 });
@@ -305,6 +308,7 @@ public class RightMenu extends GridPane {
                     public void handle(ActionEvent actionEvent) {
                         if (!window.root.getChildren().contains(lineBtn)) {
                             window.root.getChildren().set(3, lineBtn);
+                            changeTool.close();
                         }
                     }
                 });
@@ -318,6 +322,7 @@ public class RightMenu extends GridPane {
                     public void handle(ActionEvent actionEvent) {
                         if (!window.root.getChildren().contains(textBtn)) {
                             window.root.getChildren().set(3, textBtn);
+                            changeTool.close();
                         }
                     }
                 });
@@ -331,6 +336,7 @@ public class RightMenu extends GridPane {
                     public void handle(ActionEvent actionEvent) {
                         if (!window.root.getChildren().contains(rectangleBtn)) {
                             window.root.getChildren().set(3, rectangleBtn);
+                            changeTool.close();
                         }
                     }
                 });
@@ -344,6 +350,7 @@ public class RightMenu extends GridPane {
                     public void handle(ActionEvent actionEvent) {
                         if (!window.root.getChildren().contains(circleBtn)) {
                             window.root.getChildren().set(3, circleBtn);
+                            changeTool.close();
                         }
                     }
                 });
@@ -357,6 +364,7 @@ public class RightMenu extends GridPane {
                     public void handle(ActionEvent actionEvent) {
                         if (!window.root.getChildren().contains(curveBtn)) {
                             window.root.getChildren().set(3, curveBtn);
+                            changeTool.close();
                         }
                     }
                 });
