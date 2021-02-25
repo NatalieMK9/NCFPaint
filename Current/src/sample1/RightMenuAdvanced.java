@@ -159,7 +159,6 @@ public class RightMenuAdvanced extends GridPane {
                     public void handle(MouseEvent event) {
                         addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
                         window.task.add(addedImg[0]);
-                        //window.graphicsContext.beginPath();
                         window.graphicsContext.lineTo(event.getX(), event.getY());
                         window.graphicsContext.setStroke(window.cp.getValue());
                         window.graphicsContext.closePath();
@@ -177,7 +176,12 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Text");
-                getText(primaryStage, window);
+                window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        getText(new Stage(), window, mouseEvent.getX(), mouseEvent.getY());
+                    }
+                });
 
                 window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
                     @Override
@@ -217,6 +221,9 @@ public class RightMenuAdvanced extends GridPane {
                                 }
                             }
                         });
+                        WritableImage addedImg = new WritableImage(window.x-200, window.y);
+                        addedImg = window.canvas.snapshot(null, addedImg);
+                        window.task.add(addedImg);
                     }
                 });
                 window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
@@ -400,7 +407,7 @@ public class RightMenuAdvanced extends GridPane {
 
     }
 
-    public void getText(Stage stage, AdvancedWindow window) {
+    public void getText(Stage stage, AdvancedWindow window, double x, double y) {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -411,26 +418,18 @@ public class RightMenuAdvanced extends GridPane {
         grid.add(new Label( "Text:"), 0, 0);
         grid.add(text, 1, 0);
         grid.add(enterButton, 1, 1);
+        Scene newScene = new Scene(grid);
+        stage.setScene(newScene);
+        stage.show();
 
         enterButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
-                setText(text.getText());
-                stage.close();
+                window.graphicsContext.setFill(window.cp.getValue());
+                window.graphicsContext.fillText(text.getText(), x, y);
+                stage.hide();
             }
         });
-        window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Scene newScene = new Scene(grid);
-                stage.setScene(newScene);
-                stage.show();
-            }
-        });
-    }
 
-    public String setText(String text) {
-        System.out.println(text);
-        return text;
     }
 }
 // Oracle Class for getting extension of a file for saving.
