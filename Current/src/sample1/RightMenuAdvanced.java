@@ -243,7 +243,7 @@ public class RightMenuAdvanced extends GridPane {
                     addedImg = window.canvas.snapshot(null, addedImg);
                     window.task.add(addedImg);
                     window.graphicsContext.setFill(cp.getValue());
-                    window.graphicsContext.fillOval(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
+                    window.graphicsContext.fillOval(event.getX() - (window.slider.getValue() / 2), event.getY() - (window.slider.getValue() / 2), window.slider.getValue(), window.slider.getValue());
                 });
                 window.canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
                     @Override
@@ -328,38 +328,38 @@ public class RightMenuAdvanced extends GridPane {
 
         doneBtn.setOnAction(new EventHandler<ActionEvent>() {
 
-                                @Override
-                                public void handle(ActionEvent actionEvent) {
-                                    System.out.println("Saved");
-                                    FileChooser fileChooser = new FileChooser();
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Saved");
+                FileChooser fileChooser = new FileChooser();
 
-                                    //Set extension filter
-                                    FileChooser.ExtensionFilter extFilter =
+                //Set extension filter
+                FileChooser.ExtensionFilter extFilter =
                                             new FileChooser.ExtensionFilter("Image File Format Only", "*.png", "*.jpeg", "*.svg", "*.gif");
-                                    fileChooser.getExtensionFilters().add(extFilter);
+                fileChooser.getExtensionFilters().add(extFilter);
 
-                                    //Show save file dialog
-                                    File file = fileChooser.showSaveDialog(window.stage);
-                                    window.canvas.requestFocus();
+                //Show save file dialog
+                File file = fileChooser.showSaveDialog(window.stage);
+                window.canvas.requestFocus();
 
 
-                                    if (file != null) {
+                if (file != null) {
 
-                                        WritableImage a = new WritableImage((int) window.canvas.getWidth(), (int) window.canvas.getHeight());
-                                        Image temp = window.canvas.snapshot(null, a);
-                                        BufferedImage image = SwingFXUtils.fromFXImage(temp, null);
+                    WritableImage a = new WritableImage((int) window.canvas.getWidth(), (int) window.canvas.getHeight());
+                    Image temp = window.canvas.snapshot(null, a);
+                    BufferedImage image = SwingFXUtils.fromFXImage(temp, null);
 
-                                        try {
-                                            Checker u = new Checker();
-                                            String ext = u.getExtension(file);
-                                            ImageIO.write(image, ext, file);
-                                        } catch (IOException exception) {
-                                            exception.printStackTrace();
-                                            window.canvas.requestFocus();
-                                        }
-                                    }
-                                }
-                            });
+                    try {
+                        Checker u = new Checker();
+                        String ext = u.getExtension(file);
+                        ImageIO.write(image, ext, file);
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                        window.canvas.requestFocus();
+                    }
+                }
+            }
+        });
 
 
 
