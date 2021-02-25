@@ -70,7 +70,9 @@ public class RightMenuAdvanced extends GridPane {
                     @Override
                     public void handle(MouseEvent event) {
                         window.graphicsContext.setFill(cp.getValue());
-                        window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
+                        window.graphicsContext.fillRect(event.getX() - (window.slider.getValue() / 2),
+                                event.getY() - (window.slider.getValue() / 2), window.slider.getValue(),
+                                window.slider.getValue());
 
 
                     }
@@ -243,7 +245,9 @@ public class RightMenuAdvanced extends GridPane {
                     addedImg = window.canvas.snapshot(null, addedImg);
                     window.task.add(addedImg);
                     window.graphicsContext.setFill(cp.getValue());
-                    window.graphicsContext.fillOval(event.getX() - (window.slider.getValue() / 2), event.getY() - (window.slider.getValue() / 2), window.slider.getValue(), window.slider.getValue());
+                    window.graphicsContext.fillOval(event.getX() - (window.slider.getValue() / 2),
+                            event.getY() - (window.slider.getValue() / 2), window.slider.getValue(),
+                            window.slider.getValue());
                 });
                 window.canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
                     @Override
