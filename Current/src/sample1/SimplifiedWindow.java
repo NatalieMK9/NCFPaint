@@ -52,7 +52,7 @@ public class SimplifiedWindow extends Application {
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0, 0, x-200, y);
 
-        slider = new Slider(0, 20, 5);
+        slider = new Slider(1, 50, 5);
         slider.setOrientation(Orientation.VERTICAL);
         slider.setShowTickLabels(true);
         slider.setBlockIncrement(5.0);
