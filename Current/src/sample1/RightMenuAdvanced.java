@@ -17,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -144,25 +145,16 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Line");
-                window.graphicsContext.closePath();
-                window.canvas.requestFocus();
-                final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
-                window.graphicsContext.beginPath();
-                window.graphicsContext.setStroke(window.cp.getValue());
+                window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        makeLine(primaryStage, window, mouseEvent.getX(), mouseEvent.getY());
+                    }
+                });
                 window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         //do nothing
-                    }
-                });
-                window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent event) {
-                        addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
-                        window.task.add(addedImg[0]);
-                        window.graphicsContext.lineTo(event.getX(), event.getY());
-                        window.graphicsContext.setStroke(window.cp.getValue());
-                        window.graphicsContext.closePath();
-                        window.graphicsContext.stroke();
                     }
                 });
             }
@@ -203,27 +195,7 @@ public class RightMenuAdvanced extends GridPane {
                 window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        window.graphicsContext.beginPath();
-                        double firstCornerX = mouseEvent.getX();
-                        double firstCornerY = mouseEvent.getY();
-                        window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                            @Override
-                            public void handle(MouseEvent mouseEvent) {
-                                window.graphicsContext.setFill(window.cp.getValue());
-                                if (firstCornerX < mouseEvent.getX() && firstCornerY > mouseEvent.getY()) {
-                                    window.graphicsContext.fillRect(firstCornerX, mouseEvent.getY(), mouseEvent.getX() - firstCornerX, firstCornerY - mouseEvent.getY());
-                                } else if (firstCornerX > mouseEvent.getX() && firstCornerY < mouseEvent.getY()){
-                                    window.graphicsContext.fillRect(mouseEvent.getX(), firstCornerY, firstCornerX - mouseEvent.getX(), mouseEvent.getY() - firstCornerY);
-                                } else if (firstCornerX > mouseEvent.getX() && firstCornerY > mouseEvent.getY()) {
-                                    window.graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), firstCornerX - mouseEvent.getX(), firstCornerY - mouseEvent.getY());
-                                } else {
-                                    window.graphicsContext.fillRect(firstCornerX, firstCornerY, mouseEvent.getX() - firstCornerX, mouseEvent.getY() - firstCornerY);
-                                }
-                            }
-                        });
-                        WritableImage addedImg = new WritableImage(window.x-200, window.y);
-                        addedImg = window.canvas.snapshot(null, addedImg);
-                        window.task.add(addedImg);
+                        makeRectangle(primaryStage, window, mouseEvent.getX(), mouseEvent.getY());
                     }
                 });
                 window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
@@ -405,6 +377,59 @@ public class RightMenuAdvanced extends GridPane {
         this.add(redoBtn, 1, 5, 1, 1);
         this.add(doneBtn, 1, 10, 1, 1);
 
+    }
+
+    public void makeLine(Stage stage, AdvancedWindow window, double startX, double startY) {
+        window.graphicsContext.closePath();
+        window.canvas.requestFocus();
+        final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
+        //window.graphicsContext.beginPath();
+        window.graphicsContext.setStroke(window.cp.getValue());
+
+        window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
+                window.task.add(addedImg[0]);
+                window.graphicsContext.setLineWidth(window.slider.getValue());
+                window.graphicsContext.strokeLine(startX, startY, event.getX(), event.getY());
+                window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        makeLine(stage, window, mouseEvent.getX(), mouseEvent.getY());
+                    }
+                });
+            }
+        });
+    }
+
+    public void makeRectangle(Stage stage, AdvancedWindow window, double firstX, double firstY) {
+        window.graphicsContext.beginPath();
+        window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                window.graphicsContext.setFill(window.cp.getValue());
+                if (firstX < mouseEvent.getX() && firstY > mouseEvent.getY()) {
+                    window.graphicsContext.fillRect(firstX, mouseEvent.getY(), mouseEvent.getX() - firstX, firstY - mouseEvent.getY());
+                } else if (firstX > mouseEvent.getX() && firstY < mouseEvent.getY()){
+                    window.graphicsContext.fillRect(mouseEvent.getX(), firstY, firstX - mouseEvent.getX(), mouseEvent.getY() - firstY);
+                } else if (firstX > mouseEvent.getX() && firstY > mouseEvent.getY()) {
+                    window.graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), firstX - mouseEvent.getX(), firstY - mouseEvent.getY());
+                } else {
+                    window.graphicsContext.fillRect(firstX, firstY, mouseEvent.getX() - firstX, mouseEvent.getY() - firstY);
+                }
+
+                WritableImage addedImg = new WritableImage(window.x-200, window.y);
+                addedImg = window.canvas.snapshot(null, addedImg);
+                window.task.add(addedImg);
+                window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        makeRectangle(stage, window, mouseEvent.getX(), mouseEvent.getY());
+                    }
+                });
+
+            }
+        });
     }
 
     public void getText(Stage stage, AdvancedWindow window, double x, double y) {
