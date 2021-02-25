@@ -1,28 +1,19 @@
 package sample1;
 
-import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -63,8 +54,11 @@ public class RightMenuAdvanced extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Hand Draw");
-                window.canvas.setOnMouseDragged((event) -> {
-                    makeHandDraw(primaryStage, window, event.getX(), event.getY());
+                window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        makeHandDraw(primaryStage, window, mouseEvent.getX(), mouseEvent.getY());
+                    }
                 });
             }
         });
@@ -272,6 +266,12 @@ public class RightMenuAdvanced extends GridPane {
                         // do nothing
                     }
                 });
+                window.canvas.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        // do nothing
+                    }
+                });
             }
         });
 
@@ -291,6 +291,7 @@ public class RightMenuAdvanced extends GridPane {
                         window.graphicsContext.stroke();
                     }
                 });
+                // Undo any possible handlers set by other methods.
                 window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
@@ -301,7 +302,7 @@ public class RightMenuAdvanced extends GridPane {
         });
 
         Button undoBtn = new Button("Undo");
-        undoBtn.setPrefSize(50, 30);
+        undoBtn.setPrefSize(60, 30);
         undoBtn.setUserData("Undo");
         undoBtn.setTooltip(new Tooltip("Click to undo most recent change"));
 
@@ -324,7 +325,7 @@ public class RightMenuAdvanced extends GridPane {
         });
 
         Button redoBtn = new Button("Redo");
-        redoBtn.setPrefSize(50, 30);
+        redoBtn.setPrefSize(60, 30);
         redoBtn.setUserData("Undo");
         redoBtn.setTooltip(new Tooltip("Click to redo the thing you just undid"));
 
@@ -336,7 +337,7 @@ public class RightMenuAdvanced extends GridPane {
         });
 
         Button doneBtn = new Button("Done");
-        doneBtn.setPrefSize(50, 30);
+        doneBtn.setPrefSize(60, 30);
         doneBtn.setUserData("Done");
         doneBtn.setTooltip(new Tooltip("Click to save your work"));
 
@@ -404,6 +405,13 @@ public class RightMenuAdvanced extends GridPane {
 
     }
 
+    /***
+     * Allows you to draw free hand using recursion.
+     * @param stage the stage to use
+     * @param window the window to use
+     * @param x the starting x coordinate
+     * @param y the starting y coordinate
+     */
     public void makeHandDraw(Stage stage, AdvancedWindow window, double x, double y) {
         final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
         window.graphicsContext.setFill(cp.getValue());
@@ -412,6 +420,7 @@ public class RightMenuAdvanced extends GridPane {
         window.graphicsContext.lineTo(x, y);
         window.graphicsContext.stroke();
         window.canvas.setOnMouseReleased((e) -> {
+            window.graphicsContext.beginPath();
             addedImg[0] = new WritableImage(window.x - 200, window.y);
             addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
             window.task.add(addedImg[0]);
@@ -421,13 +430,19 @@ public class RightMenuAdvanced extends GridPane {
         window.canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                window.graphicsContext.beginPath();
                 makeHandDraw(stage, window, mouseEvent.getX(), mouseEvent.getY());
                 window.graphicsContext.closePath();
             }
         });
     }
 
+    /***
+     * Like free hand, the erase feature uses recursion to erase as many things as you want.
+     * @param stage the stage to use
+     * @param window the window to use
+     * @param x the starting x coordinate
+     * @param y the starting y coordinate
+     */
     public void makeErase(Stage stage, AdvancedWindow window, double x, double y) {
         final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
         window.graphicsContext.setFill(Color.WHITE);
@@ -452,6 +467,13 @@ public class RightMenuAdvanced extends GridPane {
         });
     }
 
+    /***
+     * Makes lines using recursion
+     * @param stage the stage to use
+     * @param window the window to use
+     * @param startX the starting x coordinate
+     * @param startY the starting y coordinate
+     */
     public void makeLine(Stage stage, AdvancedWindow window, double startX, double startY) {
         window.graphicsContext.closePath();
         window.canvas.requestFocus();
@@ -475,7 +497,13 @@ public class RightMenuAdvanced extends GridPane {
         });
     }
 
-
+    /***
+     * makes rectangles using recursion
+     * @param stage the stage to use
+     * @param window the window to use
+     * @param firstX the first x coordinate
+     * @param firstY the first y coordinate
+     */
     public void makeRectangle(Stage stage, AdvancedWindow window, double firstX, double firstY) {
         window.graphicsContext.beginPath();
         window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -507,6 +535,13 @@ public class RightMenuAdvanced extends GridPane {
         });
     }
 
+    /***
+     * makes a window to enter text in and puts it on the canvas upon clicking enter
+     * @param stage the stage to use
+     * @param window the window to use
+     * @param x the x coordinate of the text
+     * @param y the y coordinate of the text
+     */
     public void getText(Stage stage, AdvancedWindow window, double x, double y) {
         GridPane grid = new GridPane();
         grid.setHgap(10);
