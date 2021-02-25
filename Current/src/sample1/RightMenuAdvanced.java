@@ -29,9 +29,20 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/***
+ * Right side menu for the advanced window.
+ *
+ * @author RANT
+ * @version 1.0
+ * @since 2021-02-25
+ */
 public class RightMenuAdvanced extends GridPane {
     public ColorPicker cp;
-    double startX, startY, changedX, changedY, newChangedX, newChangedY;
+
+    /***
+     * Constructor for the RightMenuAdvanced class
+     * @param window the Advanced window to access
+     */
     public RightMenuAdvanced(AdvancedWindow window) {
         window.task.add(new WritableImage(window.x-200, window.y));
         int i=0;

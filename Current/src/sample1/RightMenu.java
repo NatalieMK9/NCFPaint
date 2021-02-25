@@ -39,57 +39,8 @@ public class RightMenu extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Hand Draw");
-                window.cp.setOnMouseClicked(a -> {
-                    window.graphicsContext.setFill(window.cp.getValue());
-                    window.canvas.requestFocus();
-
-                });
-
-                window.canvas.setOnMouseClicked((event) -> {
-                    WritableImage addedImg = new WritableImage(window.x - 200, window.y);
-                    addedImg = window.canvas.snapshot(null, addedImg);
-                    window.task.add(addedImg);
-                    window.graphicsContext.setFill(window.cp.getValue());
-                    window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
-                });
-
-
-                window.graphicsContext.closePath();
                 window.canvas.setOnMouseDragged((event) -> {
-                    //for(i = 0; i<10; i++) {
-                    //WritableImage addedImg = new WritableImage(300, 300);
-                    //addedImg = canvas.snapshot(null, addedImg);
-                    //task.add(addedImg);
-                    window.graphicsContext.setFill(window.cp.getValue());
-                    window.graphicsContext.fillRect(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
-                    System.out.println("X: " + Double.toString(event.getX()) + "; Y: " + Double.toString(event.getY()));
-                    WritableImage addedImg = new WritableImage(window.x - 200, window.y);
-                    window.task.add(addedImg);
-                });
-
-                window.canvas.setOnKeyReleased(new EventHandler<KeyEvent>() {
-                    String a = null;
-                    @Override
-                    public void handle(KeyEvent keyEvent) {
-                        window.graphicsContext.closePath();
-                        window.canvas.requestFocus();
-                        String a = keyEvent.getCode().toString().toLowerCase();
-                        final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
-                        window.graphicsContext.beginPath();
-                        window.graphicsContext.setStroke(window.cp.getValue());
-                        window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                            public void handle(MouseEvent event) {
-                                addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
-                                window.task.add(addedImg[0]);
-                                window.graphicsContext.lineTo(event.getX(), event.getY());
-                                window.graphicsContext.setStroke(window.cp.getValue());
-                                window.graphicsContext.closePath();
-                                window.graphicsContext.stroke();
-
-                                //i++;
-                            }
-                        });
-                    }
+                    makeHandDraw(primaryStage, window, event.getX(), event.getY());
                 });
             }
         });
@@ -105,6 +56,12 @@ public class RightMenu extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Erase");
+                window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        makeErase(primaryStage, window, mouseEvent.getX(), mouseEvent.getY());
+                    }
+                });
             }
         });
 
@@ -132,6 +89,24 @@ public class RightMenu extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Line");
+                window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        makeLine(primaryStage, window, mouseEvent.getX(), mouseEvent.getY());
+                    }
+                });
+                window.canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        // Do nothing
+                    }
+                });
+                window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        //do nothing
+                    }
+                });
             }
         });
 
@@ -145,6 +120,24 @@ public class RightMenu extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Text");
+                window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        getText(new Stage(), window, mouseEvent.getX(), mouseEvent.getY());
+                    }
+                });
+                window.canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        // Do nothing
+                    }
+                });
+                window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        // Do nothing
+                    }
+                });
             }
         });
 
@@ -158,6 +151,24 @@ public class RightMenu extends GridPane {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Rectangle");
+                window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        makeRectangle(primaryStage, window, mouseEvent.getX(), mouseEvent.getY());
+                    }
+                });
+                window.canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        // Do nothing
+                    }
+                });
+                window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        // Do nothing
+                    }
+                });
             }
         });
 
@@ -176,9 +187,22 @@ public class RightMenu extends GridPane {
                     addedImg = window.canvas.snapshot(null, addedImg);
                     window.task.add(addedImg);
                     window.graphicsContext.setFill(window.cp.getValue());
-                    window.graphicsContext.fillOval(event.getX(), event.getY(), window.slider.getValue(), window.slider.getValue());
+                    window.graphicsContext.fillOval(event.getX() - (window.slider.getValue() / 2),
+                            event.getY() - (window.slider.getValue() / 2), window.slider.getValue(),
+                            window.slider.getValue());
                 });
-
+                window.canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        // Do nothing
+                    }
+                });
+                window.canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        // do nothing
+                    }
+                });
             }
         });
 
@@ -388,5 +412,128 @@ public class RightMenu extends GridPane {
         this.add(doneBtn, 1, 1, 1, 1);
         this.add(undoBtn, 0, 2, 1, 1);
         this.add(redoBtn, 1, 2, 1, 1);
+    }
+
+    public void makeHandDraw(Stage stage, SimplifiedWindow window, double x, double y) {
+        final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
+        window.graphicsContext.setFill(window.cp.getValue());
+        window.graphicsContext.setLineWidth(window.slider.getValue());
+        window.graphicsContext.setStroke(window.cp.getValue());
+        window.graphicsContext.lineTo(x, y);
+        window.graphicsContext.stroke();
+        window.canvas.setOnMouseReleased((e) -> {
+            addedImg[0] = new WritableImage(window.x - 200, window.y);
+            addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
+            window.task.add(addedImg[0]);
+            window.canvas.disableProperty();
+        });
+
+        window.canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                window.graphicsContext.beginPath();
+                makeHandDraw(stage, window, mouseEvent.getX(), mouseEvent.getY());
+                window.graphicsContext.closePath();
+            }
+        });
+    }
+
+    public void makeErase(Stage stage, SimplifiedWindow window, double x, double y) {
+        final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
+        window.graphicsContext.setFill(Color.WHITE);
+        window.graphicsContext.setStroke(Color.WHITE);
+        window.graphicsContext.setLineWidth(window.slider.getValue());
+        window.graphicsContext.lineTo(x, y);
+        window.graphicsContext.stroke();
+        window.canvas.setOnMouseReleased((e) -> {
+            addedImg[0] = new WritableImage(window.x - 200, window.y);
+            addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
+            window.task.add(addedImg[0]);
+            window.canvas.disableProperty();
+            window.graphicsContext.closePath();
+        });
+
+        window.canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                window.graphicsContext.beginPath();
+                makeErase(stage, window, mouseEvent.getX(), mouseEvent.getY());
+            }
+        });
+    }
+    public void makeLine(Stage stage, SimplifiedWindow window, double startX, double startY) {
+        window.graphicsContext.closePath();
+        window.canvas.requestFocus();
+        final WritableImage[] addedImg = {new WritableImage(window.x - 200, window.y)};
+        //window.graphicsContext.beginPath();
+        window.graphicsContext.setStroke(window.cp.getValue());
+
+        window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                addedImg[0] = window.canvas.snapshot(null, addedImg[0]);
+                window.task.add(addedImg[0]);
+                window.graphicsContext.setLineWidth(window.slider.getValue());
+                window.graphicsContext.strokeLine(startX, startY, event.getX(), event.getY());
+                window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        makeLine(stage, window, mouseEvent.getX(), mouseEvent.getY());
+                    }
+                });
+            }
+        });
+    }
+    public void makeRectangle(Stage stage, SimplifiedWindow window, double firstX, double firstY) {
+        window.graphicsContext.beginPath();
+        window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                window.graphicsContext.setFill(window.cp.getValue());
+                if (firstX < mouseEvent.getX() && firstY > mouseEvent.getY()) {
+                    window.graphicsContext.fillRect(firstX, mouseEvent.getY(), mouseEvent.getX() - firstX, firstY - mouseEvent.getY());
+                } else if (firstX > mouseEvent.getX() && firstY < mouseEvent.getY()){
+                    window.graphicsContext.fillRect(mouseEvent.getX(), firstY, firstX - mouseEvent.getX(), mouseEvent.getY() - firstY);
+                } else if (firstX > mouseEvent.getX() && firstY > mouseEvent.getY()) {
+                    window.graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), firstX - mouseEvent.getX(), firstY - mouseEvent.getY());
+                } else {
+                    window.graphicsContext.fillRect(firstX, firstY, mouseEvent.getX() - firstX, mouseEvent.getY() - firstY);
+                }
+
+                WritableImage addedImg = new WritableImage(window.x-200, window.y);
+                addedImg = window.canvas.snapshot(null, addedImg);
+                window.task.add(addedImg);
+                window.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        window.graphicsContext.setFill(window.cp.getValue());
+                        makeRectangle(stage, window, mouseEvent.getX(), mouseEvent.getY());
+                    }
+                });
+            }
+        });
+    }
+    public void getText(Stage stage, SimplifiedWindow window, double x, double y) {
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(0, 10, 0, 10));
+        final TextField text = new TextField();
+        text.setPromptText("Text");
+        Button enterButton = new Button("Enter");
+        grid.add(new Label( "Text:"), 0, 0);
+        grid.add(text, 1, 0);
+        grid.add(enterButton, 1, 1);
+        Scene newScene = new Scene(grid);
+        stage.setScene(newScene);
+        stage.show();
+
+        enterButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                window.graphicsContext.setFill(window.cp.getValue());
+                window.graphicsContext.fillText(text.getText(), x, y);
+                stage.hide();
+            }
+        });
+
     }
 }
