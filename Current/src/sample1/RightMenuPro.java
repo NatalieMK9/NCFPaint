@@ -377,17 +377,6 @@ public class RightMenuPro extends GridPane {
         });
 
 
-
-     /*   EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                startX = event.getX();
-                startY = event.getY();
-                changedX = ((Circle) (event.getSource())).getTranslateX();
-                changedY = ((Circle) (event.getSource())).getTranslateY();
-            }
-        };
-*/
         this.add(moveBtn, 0, 0, 1, 1);
         this.add(handDrawBtn, 0, 1, 1, 1);
         this.add(pixelBtn, 0, 2, 1, 1);
